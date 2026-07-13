@@ -26,24 +26,22 @@ def fetch(tk):
         j = json.load(r)
     res = j['chart']['result'][0]
     meta = res['meta']
-    price = meta.get('regularMarketPrice')
-    prev_close = meta.get('chartPreviousClose') or meta.get('previousClose')
-    chg = (price/prev_close - 1)*100 if (price and prev_close) else None
-    # YTD：找今年第一個交易日之前最後一筆收盤當基準
-    ytd = None
-    try:
-        ts = res['timestamp']
-        closes = res['indicators']['quote'][0]['close']
-        base = None
-        for t, c in zip(ts, closes):
-            if c is None: continue
-            d = datetime.datetime.utcfromtimestamp(t).date()
-            if d < datetime.date(YEAR, 1, 1):
-                base = c
-        if base and price: ytd = (price/base - 1)*100
-    except Exception:
-        pass
-    last_date = datetime.datetime.utcfromtimestamp(meta.get('regularMarketTime', time.time())).date().isoformat()
+    ts = res['timestamp']
+    closes = res['indicators']['quote'][0]['close']
+    # 取出所有非 null 的 (date, close)，用時間序列算「當日」漲跌與 YTD
+    series = [(datetime.datetime.utcfromtimestamp(t).date(), c)
+              for t, c in zip(ts, closes) if c is not None]
+    if len(series) < 2: return None
+    last_date, price = series[-1]
+    prev_close = series[-2][1]                       # 前一交易日收盤 → 正確的當日漲跌
+    chg = (price/prev_close - 1)*100 if prev_close else None
+    # YTD：今年 1/1 之前最後一筆收盤當基準
+    base = None
+    for d, c in series:
+        if d < datetime.date(YEAR, 1, 1):
+            base = c
+    ytd = (price/base - 1)*100 if base else None
+    last_date = last_date.isoformat()
     if price is None: return None
     return {'price': round(price, 2),
             'change_pct': round(chg, 2) if chg is not None else None,
