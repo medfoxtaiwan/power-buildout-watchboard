@@ -2,8 +2,11 @@ name: Update closing prices daily
 
 on:
   schedule:
-    # 每個交易日美股收盤後跑（23:10 UTC ≈ 美東 18:10 / 19:10）
-    - cron: '10 23 * * 1-5'
+    # 美股週一~週五收盤(20:00 UTC)後跑。GitHub 排程是「盡力而為」會延遲/偶爾跳過，
+    # 故排兩個時段做備援：主要收盤後~1hr，備援隔日凌晨補抓。腳本 idempotent，抓到同一
+    # 收盤不會重複 commit。台灣時間對應：主要 ≈ 05:05、備援 ≈ 08:20。
+    - cron: '5 21 * * 1-5'    # 21:05 UTC 主要
+    - cron: '20 0 * * 2-6'    # 00:20 UTC 隔日備援（週二~六 補週一~五收盤）
   workflow_dispatch: {}
 
 permissions:
