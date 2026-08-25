@@ -1,6 +1,6 @@
 {
  "updated": "2026-08-24",
- "generated": "2026-08-24",
+ "generated": "2026-08-25",
  "prices": {
   "NRG": {
    "price": 111.78,
@@ -94,7 +94,7 @@
   },
   "IESC": {
    "price": 324.12,
-   "change_pct": -47.15,
+   "change_pct": -5.37,
    "ytd": -16.7,
    "date": "2026-08-24"
   },
