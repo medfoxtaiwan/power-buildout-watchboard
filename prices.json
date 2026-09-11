@@ -1,6 +1,6 @@
 {
  "updated": "2026-09-10",
- "generated": "2026-09-10",
+ "generated": "2026-09-11",
  "prices": {
   "NRG": {
    "price": 111.65,
@@ -256,7 +256,7 @@
   },
   "XE": {
    "price": 15.84,
-   "change_pct": -8.26,
+   "change_pct": -8.23,
    "ytd": null,
    "date": "2026-09-10"
   },
