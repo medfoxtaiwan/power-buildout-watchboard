@@ -1,6 +1,6 @@
 {
  "updated": "2026-09-14",
- "generated": "2026-09-14",
+ "generated": "2026-09-15",
  "prices": {
   "NRG": {
    "price": 108.47,
@@ -135,10 +135,10 @@
    "date": "2026-09-14"
   },
   "HUBB": {
-   "price": 442.38,
-   "change_pct": -3.91,
-   "ytd": -0.4,
-   "date": "2026-09-14"
+   "price": 460.4,
+   "change_pct": 1.77,
+   "ytd": 3.7,
+   "date": "2026-09-11"
   },
   "ATKR": {
    "price": 94.07,
